@@ -1,0 +1,6 @@
+.vscode/
+certificates/
+omnisharp.json
+
+Thumbs.db
+.DS_Store
