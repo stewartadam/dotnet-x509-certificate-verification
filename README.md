@@ -21,7 +21,7 @@ In .NET Core 3.x and prior, the implementation has two 'gotchas' that are not we
 
 Both of these gotchas require a developer perform manual verification of correct chain termination (i.e. checking the last item in the chain is indeed the signing root CA we expect), and needs to be done **manually** and **separately** from `X509Chain.Build()`.
 
-[dotnet/runtime#26449](https://github.com/dotnet/runtime/issues/26449) and [dotnet/rutime#49615](https://github.com/dotnet/runtime/issues/49615) have more details.
+[dotnet/runtime#26449](https://github.com/dotnet/runtime/issues/26449) and [dotnet/runtime#49615](https://github.com/dotnet/runtime/issues/49615) have more details.
 
 Thus, these code samples demonstrate both the older .NET Core-based method that includes an additional verification, as well as the newer .NET 5+ that supports verification against a specific root CA.
 
@@ -88,7 +88,7 @@ Scripts to generate sample data are also included in the repo. Ensure you have O
 4. Try validating an otherwise well-known certificate but pin it against an unrelated root CA (again, we expect failures):
 
    ```sh
-   dotnet-script certvalidate-selfsigned-dotnetcore.csx -- certificates/ mozilla.org.pem certificates/ca.bar.com.pem
+   dotnet-script certvalidate-selfsigned-dotnetcore.csx -- certificates/mozilla.org.pem certificates/ca.bar.com.pem
 
-   dotnet-script certvalidate-selfsigned-dotnet5+.csx -- certificates/ mozilla.org.pem certificates/ca.bar.com.pem
+   dotnet-script certvalidate-selfsigned-dotnet5+.csx -- certificates/mozilla.org.pem certificates/ca.bar.com.pem
    ```

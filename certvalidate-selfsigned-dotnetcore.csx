@@ -23,14 +23,14 @@ var isVerified = chain.Build(certificateUnderValidation);
 
 PrintX509VerificationResults(isVerified, chain);
 
-// Because PartialChain is also ignored by AllowUnknownCertifiateAuthority,
+// Because PartialChain is also ignored by AllowUnknownCertificateAuthority,
 // X509Chain.Build() will return true even when the chain is incomplete -
 // i.e., even when the certificate under validation was *not* issued by any of
 // the CAs in the OS trust store and those added to ExtraStore.
 //
 // As a result, an explicit verification on the last element in the chain is
 // necessary in addition to X509Chain.Build() return value to ensure a completed
-//  chain that terminates with the intended root certificate:
+// chain that terminates with the intended root certificate:
 var isSignedByExpectedRoot = chain.ChainElements[^1].Certificate.RawData.SequenceEqual(caAndChain[^1].RawData);
 Console.WriteLine($"Certificate chain terminates at expected CA root ({caAndChain[^1].Thumbprint}): {isSignedByExpectedRoot}");
 
