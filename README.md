@@ -16,7 +16,8 @@ In .NET Core 3.x and prior, the implementation has two 'gotchas' that are not we
 
    This means that a `X509Chain.Build()` verification only tells us only that a chain terminated in **one** of the trusted certificates, but does not permit us to specify **which** should have matched.
 
-2. When enabling the [`AllowUnknownCertificateAuthority` flag](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.x509certificates.x509verificationflags?view=net-5.0) to work with self-signed root CAs, not only is `UntrustedRoot` ignored but also `PartialChain`! Meaning, `X509Chain.Build()` would return `true` even if your certificate under validation was not issued by any of the trusted root CAs in the OS trusted roots or ExtraStore.
+2. When enabling the [`AllowUnknownCertificateAuthority` flag](https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.x509certificates.x509verificationflags?view=net-5.0) to work with self-signed root CAs, both the `UntrustedRoot` and `PartialChain` statuses are ignored.
+   Therefore, `X509Chain.Build()` will return `true` even if your certificate under validation was not issued by any of the trusted root CAs in the OS trusted roots or ExtraStore (i.e., it considers a new chain consisting only the certificate under validation and determines that to be a partial chain, which is then ignored).
    [Up until very recently](https://github.com/dotnet/dotnet-api-docs/pull/6660), this behavior was undocumented and the .NET docs incorrectly described behavior when enabling this flag.
 
 Both of these gotchas require a developer perform manual verification of correct chain termination (i.e. checking the last item in the chain is indeed the signing root CA we expect), and needs to be done **manually** and **separately** from `X509Chain.Build()`.
